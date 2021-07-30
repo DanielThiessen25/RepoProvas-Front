@@ -1,13 +1,14 @@
 import styled from 'styled-components';
 import Screen from './Screen';
+import { Link, useHistory } from "react-router-dom";
 
 export default function Home (){
     return(
         <Screen>
             <Title>SEJA BEM-VINDO AO REPOPROVAS!</Title>
             <Options>
-            <button>Professores</button>
-            <button>Disciplinas</button>
+            <Link to="/enviar" style={{ textDecoration: 'none' }}><button>Enviar uma prova</button></Link>
+            <Link to="/visualizar" style={{ textDecoration: 'none' }}><button>Visualizar provas</button></Link>
             </Options> 
         </Screen>
     );
@@ -26,20 +27,22 @@ color: #000000;
 
 const Options = styled.div`
     margin-top: 30px;
+    height: 140px;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     button{
-        width: 200px;
+        width: 350px;
         height: 60px;
         background: #000000;
         border-radius: 5px;
+        box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.4);
         font-family: 'Raleway', sans-serif;
         font-style: normal;
         font-weight: normal;
         font-size: 20px;
         line-height: 23px;
         color: #FFFFFF;
-        margin-bottom: 15px;
         border-radius: 5px;
     }
 `;
