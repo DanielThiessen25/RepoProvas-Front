@@ -3,6 +3,7 @@ import Screen from './Screen';
 import { useState, useContext } from 'react';
 import { Link, useHistory } from "react-router-dom";
 import Loader from 'react-loader-spinner';
+import axios from 'axios';
 
 export default function Submit() {
     const [name, setName] = useState('');
@@ -37,9 +38,9 @@ export default function Submit() {
             setLoading(false);
             history.push("/");
         });
-        requestSignIn.catch(err => {
-            setEmail("");
-            setPassword("");
+        request.catch(err => {
+            setName('');
+            setExam("");
             setLoading(false);
             alert("Não conseguimos cadastrar a prova, tente novamente!");
         })
