@@ -9,7 +9,9 @@ const Screen = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    position: absolute;
+    overflow: hidden;
+    overflow-y: scroll;
 `;
 
 export default Screen;
