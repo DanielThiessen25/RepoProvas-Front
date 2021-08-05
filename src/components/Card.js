@@ -46,7 +46,7 @@ color: black;
 `;
 
 export const Info = styled.div`
-font-size: 30px;
+font-size: 20px;
 `;
 
 export const Exam = styled.div`
@@ -54,7 +54,7 @@ export const Exam = styled.div`
     color: white;
     padding: 10px;
     border-radius: 5px;
-    font-size: 30px;
+    font-size: 20px;
     font-weight: bolder;
 
 `;

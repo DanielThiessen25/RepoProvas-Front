@@ -18,20 +18,39 @@ export default function Subjects (){
         });
     }, []);
 
+    function printBySection(section){
+        let arrayFinal = [];
+        for(let i = 0; i< list.length; i++){
+            if(list[i].period === section){
+                arrayFinal.push(list[i]);
+            }
+        }
+        return(
+            arrayFinal.map(item => 
+                <Link to={"/disciplinas/"+item.id} style={{ textDecoration: 'none' }}>
+                <Option>
+                <Name>{item.name}</Name>
+                <Qtd><h3>Número de Provas: </h3>{item.qtd}</Qtd>
+                </Option>
+                </Link>
+            )
+
+        );
+    }
+
     return(
         <Screen>
            <Title>Disciplinas</Title>
-           
-
-           {list.map(item => 
-           <Link to={"/disciplinas/"+item.id} style={{ textDecoration: 'none' }}>
-           <Option>
-           <Name>{item.name}</Name>
-           <Qtd><h3>Número de Provas: </h3>{item.qtd}</Qtd>
-           </Option>
-           </Link>
-        )}
-
+            <Section>1° Semestre</Section>
+            {printBySection('1 Semestre')}
+            <Section>2° Semestre</Section>
+            {printBySection('2 Semestre')}
+            <Section>3° Semestre</Section>
+            {printBySection('3 Semestre')}
+            <Section>4° Semestre</Section>
+            {printBySection('4 Semestre')}
+            <Section>Eletivas</Section>
+            {printBySection('Eletiva')}
        </Screen>
     );
 
@@ -82,4 +101,15 @@ margin-top: 15px;
     h3{
         font-size: 20px;
     }
+`;
+
+const Section = styled.div`
+font-family: 'Raleway', sans-serif;
+font-style: normal;
+font-weight: bold;
+font-size: 26px;
+text-align: center;
+color: #000000;
+margin-top: 20px;
+margin-bottom: 20px;
 `;

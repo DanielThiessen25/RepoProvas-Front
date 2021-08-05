@@ -6,11 +6,11 @@ import { useParams } from 'react-router-dom';
 import { useContext, useState, useEffect } from "react";
 import axios from 'axios';
 
-export default function Subjects (){
-    const { idSubject } = useParams();
-    const [list, setList] = useState([[]]);
+export default function ListSubject() {
+    const idSubject = useParams().idDisciplina;
+    const [list, setList] = useState([]);
     useEffect(() => {
-        const request = axios.get("https://repoprova.herokuapp.com/disciplinas/"+idSubject);
+        const request = axios.get("https://repoprova.herokuapp.com/disciplinas/" + idSubject);
 
         request.then(resposta => {
             setList(resposta.data);
@@ -20,13 +20,38 @@ export default function Subjects (){
             console.log(err);
         });
     }, []);
-    return(
+
+     function printBySection(section){
+        let arrayFinal = [];
+        for(let i = 0; i< list.length; i++){
+            if(list[i].category === section){
+                arrayFinal.push(list[i]);
+            }
+        }
+        return(
+            arrayFinal.map(item => 
+                <Card exam={item}></Card>
+            )
+
+        );
+    }
+
+
+
+    return (
         <Screen>
-            
-           <Title>Provas: {list[0].subject}</Title>
-           {list.map(item => 
-           <Card exam={item}></Card>
-        )}
+
+            <Title>Provas: {list === [] ? "" : list.subject}</Title>
+            <Section>P1</Section>
+            {printBySection('P1')}
+            <Section>P2</Section>
+            {printBySection('P2')}
+            <Section>P3</Section>
+            {printBySection('P3')}
+            <Section>2° Chance</Section>
+            {printBySection('2chance')}
+            <Section>Outras</Section>
+            {printBySection('outras')}
         </Screen>
     );
 
