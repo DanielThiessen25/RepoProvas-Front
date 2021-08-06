@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Screen from './Screen';
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { Link, useHistory } from "react-router-dom";
 import Loader from 'react-loader-spinner';
 import axios from 'axios';
@@ -9,7 +9,20 @@ export default function Submit() {
     const [name, setName] = useState('');
     const [exam, setExam] = useState('');
     const [loading, setLoading] = useState(false);
+    const [relations, setRelations] = useState([]);
+    const [subject, setSubject] = useState("Cálculo");
     const history = useHistory();
+
+    useEffect(() => {
+        const request = axios.get("https://repoprova.herokuapp.com/enviar");
+
+        request.then(resposta => {
+            setRelations(resposta.data);
+        });
+        request.catch(err => {
+            console.log(err);
+        });
+    }, []);
 
     function sendExam(e) {
         e.preventDefault();
@@ -46,6 +59,26 @@ export default function Submit() {
         })
     }
 
+    function filterOptions(){
+        let tempTeachers = [];
+        console.log(subject);
+        console.log(relations);
+        for(let i =0; i<relations.length; i++){
+            console.log("ENTROU");
+            if(relations[i].subject === subject){
+                tempTeachers.push(relations[i].teacher);
+            }
+        }
+        console.log(tempTeachers);
+        return(
+            tempTeachers.map(item =>
+                <option value={item}>{item}</option>
+                )
+        );
+
+
+    }
+
     return (
         <Screen>
             <Title>Insira as informações da sua prova:</Title>
@@ -59,20 +92,18 @@ export default function Submit() {
                         <option value="2chance">2° Chance</option>
                         <option value="outras">Outras</option>
                     </select>
-                    <select name="subjects" id="subs">
-                        <option value="calculo">Cálculo</option>
-                        <option value="algebra">Álgebra Linear</option>
-                        <option value="fisica">Física</option>
-                        <option value="quimica">Química</option>
-                        <option value="computacao">Computação</option>
-                        <option value="humanidades">Humanidades</option>
+                    <select name="subjects" id="subs" onChange={e => setSubject(e.target.value)} >
+                        <option value="Cálculo">Cálculo</option>
+                        <option value="Álgebra Linear">Álgebra Linear</option>
+                        <option value="Fisica">Física</option>
+                        <option value="Química">Química</option>
+                        <option value="Computação">Computação</option>
+                        <option value="Humanidades">Humanidades</option>
                     </select>
+                    
                     <select name="teachers" id="tchrs">
-                        <option value="Joao">João</option>
-                        <option value="pedro">Pedro</option>
-                        <option value="carla">Carla</option>
-                        <option value="maria">Maria</option>
-                        <option value="jose">José</option>
+                    {filterOptions()}
+                        
                     </select>
                     <input placeholder="Url da prova" required type="url" value={exam} onChange={e => setExam(e.target.value)} />
                     <button type="submit" disabled={loading}>
